@@ -37,7 +37,6 @@ public struct ObjectReceivedEvent<phantom T> has copy, drop {
 /// Emitted when coin objects are received and merged into one balance.
 public struct CoinsReceivedEvent<phantom Currency> has copy, drop {
     party_id: ID,
-    coin_ids: vector<ID>,
     amount: u64,
     coins: u64,
 }
@@ -77,10 +76,9 @@ public fun receive_balance<Currency>(
 ): Balance<Currency> {
     assert!(!coins.is_empty(), ENothingToReceive);
     let party_id = object::id(party);
-    let coin_ids = coins.map_ref!(|ticket| transfer::receiving_object_id(ticket));
     let count = coins.length();
     let balance = hikida::receive_coins_as_balance(party.uid_mut(admin_cap), coins);
-    emit(CoinsReceivedEvent<Currency> { party_id, coin_ids, amount: balance.value(), coins: count });
+    emit(CoinsReceivedEvent<Currency> { party_id, amount: balance.value(), coins: count });
     balance
 }
 
@@ -117,8 +115,8 @@ public fun object_received_event_fields<T>(event: &ObjectReceivedEvent<T>): (ID,
 #[test_only]
 public fun coins_received_event_fields<Currency>(
     event: &CoinsReceivedEvent<Currency>,
-): (ID, vector<ID>, u64, u64) {
-    (event.party_id, event.coin_ids, event.amount, event.coins)
+): (ID, u64, u64) {
+    (event.party_id, event.amount, event.coins)
 }
 
 #[test_only]
