@@ -46,7 +46,7 @@ fun new_party(group: bool, ctx: &mut TxContext): (Party, PartyAdminCap) {
 fun new_shared_party(scenario: &mut ts::Scenario, group: bool): ID {
     let (party, admin_cap) = new_party(group, scenario.ctx());
     let party_id = object::id(&party);
-    party.share(&admin_cap);
+    party.share(&admin_cap, scenario.ctx());
     transfer::public_transfer(admin_cap, ADMIN);
     party_id
 }
@@ -64,7 +64,7 @@ fun new_vault<Cap: key + store>(
 fun new_vaulted_party(scenario: &mut ts::Scenario): ID {
     let (party, party_admin_cap) = new_party(false, scenario.ctx());
     let party_id = object::id(&party);
-    party.share(&party_admin_cap);
+    party.share(&party_admin_cap, scenario.ctx());
     let (vault, vault_admin_cap) = new_vault(party_admin_cap, scenario.ctx());
     vault.share();
     transfer::public_transfer(vault_admin_cap, ADMIN);
