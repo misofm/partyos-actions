@@ -170,9 +170,8 @@ fun receives_and_merges_coins_with_event_payload() {
 
         let events = event::events_by_type<action::CoinsReceivedEvent<SUI>>();
         assert_eq!(events.length(), 1);
-        let (emitted_party, coin_ids, amount, count) = action::coins_received_event_fields(&events[0]);
+        let (emitted_party, amount, count) = action::coins_received_event_fields(&events[0]);
         assert_eq!(emitted_party, party_id);
-        assert_eq!(coin_ids, vector[first, second]);
         assert_eq!(amount, 1_000);
         assert_eq!(count, 2);
 
@@ -184,7 +183,7 @@ fun receives_and_merges_coins_with_event_payload() {
 }
 
 #[test]
-fun receives_zero_valued_coins_and_emits_all_input_ids() {
+fun receives_zero_valued_coins_and_emits_count() {
     let mut scenario = ts::begin(ADMIN);
     let party_id = new_shared_party(&mut scenario, false);
 
@@ -205,9 +204,8 @@ fun receives_zero_valued_coins_and_emits_all_input_ids() {
 
         let events = event::events_by_type<action::CoinsReceivedEvent<SUI>>();
         assert_eq!(events.length(), 1);
-        let (emitted_party, coin_ids, amount, count) = action::coins_received_event_fields(&events[0]);
+        let (emitted_party, amount, count) = action::coins_received_event_fields(&events[0]);
         assert_eq!(emitted_party, party_id);
-        assert_eq!(coin_ids, vector[first, second]);
         assert_eq!(amount, 0);
         assert_eq!(count, 2);
 

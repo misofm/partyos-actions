@@ -41,3 +41,6 @@ sui move test --coverage
 ```
 
 Git dependencies are pinned to full commit SHAs.
+
+Coin-receipt events retain the consumed coin count, amounts and business identities.
+They do not duplicate a variable-length list of input coin IDs; transaction inputs/effects provide that provenance when needed.
