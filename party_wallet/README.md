@@ -21,7 +21,7 @@ changing this API.
 |---|---|---|
 | `receive<T: key + store>(party, admin_cap, ticket)` | The exact received `T` | Wrong Party cap; invalid receiving ticket |
 | `receive_balance<Currency>(party, admin_cap, coins)` | All received coins merged as `Balance<Currency>` | Wrong Party cap; empty input (`0`); invalid ticket |
-| `redeem_balance<Currency>(party, admin_cap, value)` | Redeemed `Balance<Currency>` | Wrong Party cap; zero value (`hikida` code `1`); accumulator failure |
+| `redeem_balance<Currency>(party, admin_cap, value)` | Redeemed `Balance<Currency>` | Wrong Party cap; zero value (`party_wallet` code `1`); accumulator failure |
 | `inbox_address(party)` | Party object ID as an address | Never |
 
 There are deliberately no coin-return wrappers, batch object helpers, recipient
@@ -33,8 +33,12 @@ types, witnesses, or install functions.
 | Event | Payload |
 |---|---|
 | `ObjectReceivedEvent<T>` | `party_id`, `object_id` |
-| `CoinsReceivedEvent<Currency>` | `party_id`, input `coin_ids` in order, merged `amount`, input `coins` count |
+| `CoinsReceivedEvent<Currency>` | `party_id`, merged `amount`, input `coins` count |
 | `FundsRedeemedEvent<Currency>` | `party_id`, redeemed `amount` |
+
+`FundsRedeemedEvent<Currency>` is the Party-domain Move receipt. The same
+redemption also produces the framework accumulator's typed `Split` effect;
+consumers that ingest both surfaces must not count them as two redemptions.
 
 ## Accumulator testing boundary
 
