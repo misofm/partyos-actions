@@ -3,3 +3,6 @@
 **/traces/
 **/package_summaries/
 .DS_Store
+
+**/node_modules/
+e2e/.mutation-*.ts

@@ -55,3 +55,27 @@ sui move build
 sui move test
 sui move test --coverage
 ```
+
+## Validator regression tests
+
+The Move unit-test VM does **not** enforce accumulator solvency. An
+`expected_failure` overdraw test there cannot prove the on-chain boundary.
+Run the real validator regression with Sui 1.79.0 and Bun:
+
+```sh
+cd e2e # from the repository root
+bun install --frozen-lockfile
+SUI_BIN=/path/to/sui bun run test
+```
+
+The runner starts an isolated localnet
+on ports 19000/19123, uses a fresh faucet-funded key, publishes the exact pinned
+production dependencies and wallet sources as separate immutable packages, and
+removes its scratch files afterward. It never uses an existing wallet or a public
+network. Set `WALLET_EXTERNAL_LOCALNET=1` only to reuse a localnet on those ports.
+
+The test funds a Party with 500 MIST, verifies that redeeming 501 fails with
+insufficient funds and commits no event or created asset, checks the Party still
+has 500, then redeems exactly 500 and checks the event and zero remaining balance.
+The wrong-address receiving-ticket unit test returns normally if receipt succeeds,
+so it can no longer pass because of an unrelated terminal abort.
