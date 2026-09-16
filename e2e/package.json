@@ -1,0 +1,14 @@
+{
+  "name": "party-wallet-localnet-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun run wallet.localnet.ts",
+    "typecheck": "tsc --noEmit --strict --skipLibCheck --module esnext --moduleResolution bundler --target es2022 --types bun wallet.localnet.ts"
+  },
+  "devDependencies": {
+    "@mysten/sui": "2.29.0",
+    "@types/bun": "1.4.0",
+    "typescript": "7.0.2"
+  }
+}

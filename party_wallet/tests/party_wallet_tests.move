@@ -247,7 +247,9 @@ fun receive_rejects_a_ticket_for_another_address() {
     let admin_cap = scenario.take_from_sender<PartyAdminCap>();
     let coin = action::receive(&mut party, &admin_cap, ticket<Coin<SUI>>(coin_id));
     coin.burn_for_testing();
-    abort
+    ts::return_shared(party);
+    scenario.return_to_sender(admin_cap);
+    scenario.end();
 }
 
 #[test, expected_failure(abort_code = action::ENothingToReceive)]
@@ -328,23 +330,9 @@ fun zero_redemption_aborts() {
     abort
 }
 
-/// Accumulator overdraw is a framework-native failure without a stable Move
-/// abort code, so this test intentionally accepts the native failure category.
-#[test, expected_failure]
-fun redemption_over_available_funds_aborts() {
-    let mut scenario = ts::begin(ADMIN);
-    let party_id = new_shared_party(&mut scenario, false);
-
-    scenario.next_tx(ADMIN);
-    balance::create_for_testing<SUI>(500).send_funds(party_id.to_address());
-
-    scenario.next_tx(ADMIN);
-    let mut party = scenario.take_shared<Party>();
-    let admin_cap = scenario.take_from_sender<PartyAdminCap>();
-    let redeemed = action::redeem_balance<SUI>(&mut party, &admin_cap, 501);
-    balance::destroy_for_testing(redeemed);
-    abort
-}
+// Accumulator solvency is enforced outside the Move test VM. The actual
+// overdraw/rollback and exactly-funded success regression lives in
+// e2e/wallet.localnet.ts; expected_failure here would not test that boundary.
 
 /// The test VM's `AccumulatorRoot` view is commit-settled and remains zero even
 /// after a test credit. This exercises the only honest local snapshot path.
