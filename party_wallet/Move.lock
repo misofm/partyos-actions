@@ -41,13 +41,13 @@ manifest_digest = "E41BBD67BE8940D26C79D78B028477EF5B33BA217A1282C78ACB344CF8A5E
 deps = { std = "MoveStdlib", sui = "Sui" }
 
 [pinned.testnet.MoveStdlib]
-source = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/move-stdlib", rev = "ae59d7718668b468ce65702ecb0440aa2330f389" }
+source = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/move-stdlib", rev = "2a0becb2fcc6989e492981104af67f62f2c9511a" }
 use_environment = "testnet"
 manifest_digest = "C4FE4C91DE74CBF223B2E380AE40F592177D21870DC2D7EB6227D2D694E05363"
 deps = {}
 
 [pinned.testnet.Sui]
-source = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "ae59d7718668b468ce65702ecb0440aa2330f389" }
+source = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "2a0becb2fcc6989e492981104af67f62f2c9511a" }
 use_environment = "testnet"
 manifest_digest = "7AFB66695545775FBFBB2D3078ADFD084244D5002392E837FDE21D9EA1C6D01C"
 deps = { MoveStdlib = "MoveStdlib" }
@@ -61,17 +61,17 @@ deps = { std = "MoveStdlib", sui = "Sui" }
 [pinned.testnet.party_wallet]
 source = { root = true }
 use_environment = "testnet"
-manifest_digest = "A336C34111D695E5089ACC857D7F3F75922978E5E96E4DF4A75A7408C19102EF"
+manifest_digest = "93261FB7E7372162666959D6D844F01BE9EB82CB42E6368798662152DCB57257"
 deps = { hikida = "hikida", partyos = "partyos", std = "MoveStdlib", sui = "Sui", vault = "vault" }
 
 [pinned.testnet.partyos]
-source = { git = "https://github.com/misofm/partyos.git", subdir = ".", rev = "735c72d2c7539dd71b6826d9abcb00b367a3e53c" }
+source = { git = "https://github.com/misofm/partyos.git", subdir = ".", rev = "b1fe2351e854630910a81f214d5ab0a45e0c6fab" }
 use_environment = "testnet"
 manifest_digest = "5745706258F61D6CE210904B3E6AE87A73CE9D31A6F93BE4718C442529332A87"
 deps = { std = "MoveStdlib", sui = "Sui" }
 
 [pinned.testnet.vault]
-source = { git = "https://github.com/misofm/vault.git", subdir = ".", rev = "dad40fbcb3c6e0596c210828193302dd3552ff82" }
+source = { git = "https://github.com/misofm/vault.git", subdir = ".", rev = "b39cbba9688d19aa651032f25ca27951746d13f6" }
 use_environment = "testnet"
 manifest_digest = "5745706258F61D6CE210904B3E6AE87A73CE9D31A6F93BE4718C442529332A87"
 deps = { std = "MoveStdlib", sui = "Sui" }
